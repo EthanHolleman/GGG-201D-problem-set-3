@@ -127,9 +127,31 @@ Four of the six plots from above are highly asymmetric. Explain the biological r
 
 You sequence a 5.6 kb locus in 5 diploid individuals and observe 11 segregating sites. What is your estimate of theta in this population? What property of the expected coalescent tree is this estimate based on? What is your estimate of coalescent Ne assuming a mutation rate of 10^-8 per bp per generation?
 
+Waterson theta based on number of segregating sites 
+
+
 # Problem 3
 
-Explain the difference between coalescent effective population size (Ne) and instantaneous Ne. What isone way to estimate coalescent Ne? What is one way to estimate instantaneous Ne?
+Explain the difference between coalescent effective population size (Ne) and instantaneous Ne. What is one way to estimate coalescent Ne? What is one way to estimate instantaneous Ne?
+
+Effective number of individuals in idealized population that has same magnitude
+of genetic drift as actual population (how much allele freq change across time
+in actual populations)
+
+Find wright fisher population that we would expect to have that same level of
+genetic drift (instanous or short term effective population size Ne)
+
+Another way to define is from coalensent theory persepctive
+
+Effective size of a population is number of individuals in idealizes pop
+that has the same amount of genetic variation as the actual population (vs
+genetic drift degree). This is colacent or long term effective size. 
+
+
+From generation to generation a population could be experiencing a lot of genetic
+drift and therefore have low instanous effective population size but for whatever
+reason (meta populations salmon) could maintain genetic diversity and have larger
+long term effective population size.
 
 # Problem 4
 
