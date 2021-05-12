@@ -79,7 +79,6 @@ genotype_aware_afas <- function(freq_a, freq_t, sc_del_allele, sc_func){
 
 scenerio_df <- function(del_sc, genotype_func, genotype_name){
   scenerio_name <- paste(genotype_name, as.character(del_sc))
-  message(scenerio_name)
   df <- data.frame(advan_allele_freq=seq(0, 1, 0.01))
   post_1_gen <- list()
   for (i in 1:length(df$advan_allele_freq)){
@@ -127,7 +126,27 @@ Four of the six plots from above are highly asymmetric. Explain the biological r
 
 You sequence a 5.6 kb locus in 5 diploid individuals and observe 11 segregating sites. What is your estimate of theta in this population? What property of the expected coalescent tree is this estimate based on? What is your estimate of coalescent Ne assuming a mutation rate of 10^-8 per bp per generation?
 
-Waterson theta based on number of segregating sites 
+```{R}
+locus_len <- 5.6e3
+gene_copies <- 5*2  # each diploid contributes 2 gene copies
+seg_sites <- 11  # observed 11 segregating sites
+```
+
+```{R}
+theta <- seg_sites / sum(1 / 1:(gene_copies-1))
+```
+```{R}
+mutation_rate <- 10e-8
+message(paste('Theta =', round(theta, 2)))
+```
+Ultimately, this estimation is based on the expectation that the number of segregating sites is determined by the coalensent tree length (number of generations) which in turn is a property of both population size and the number of gene copies that are analyzed. 
+
+```{R}
+Ne <- theta / (4 * mutation_rate)
+message(paste('Ne = ', round(Ne, 2)))
+```
+
+
 
 
 # Problem 3
@@ -153,10 +172,18 @@ drift and therefore have low instanous effective population size but for whateve
 reason (meta populations salmon) could maintain genetic diversity and have larger
 long term effective population size.
 
+
+Population 1: Hard to count sequence a bunch from a locus and calulate Pi
+= 2.4 diff / 1200 bp pi is also Tajimia theta = 4N u where u is a mutation
+rate 
+
+
+
 # Problem 4
 
 The expected time to the first coalescent event of four gene copies is 2N/6 generations before the present but the actual time could be much more or much less. If you sample 100 sets of four gene copies, each set has an actual time to the first coalescent event. Do you expect the number of sets that have an actual first coalescent before 2N/6 to be approximately equal to the number of sets to have an actual first coalescent after 2N/6? Explain your answer.
 
+Yes because that is how the normal distrabution works. 
 
 
 
