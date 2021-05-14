@@ -123,7 +123,19 @@ ggplot(big.df, aes(x=advan_allele_freq, y=freq_gen_2, color=scenerio)) +
 
 *Four of the six plots from above are highly asymmetric. Explain the biological reason behind these asymmetric patterns.*
 
-Biological significane 
+All curves that do not use the allele frequency assumptions defined by additive
+selection are asymmetric. This makes sense biologically as having more copies of
+the advantageous allele are selected for and the most change can occur when
+the advantageous allele makes up 50% of the allele frequency. In the recessive
+case the density of the curves are shifted to the left as the selective benefit
+of the recessive advantageous allele would be mostly masked until allele frequency
+rose high enough. This is the precise opposite of the case if the advantageous
+allele is dominant. In all cases changes in allele frequency go to zero when
+allele frequency in generation one is 1 or 0 because the advantages allele has
+reached fixation. Biologically this means that a recessive advantageous allele must rise to a
+greater allele frequency before selective effects really start to be observed
+while the opposite is true for dominant advantagous alleles.
+
 
 # Problem 2
 
