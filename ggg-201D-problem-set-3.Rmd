@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Part A
 
-Generate a scatter plot that shows the properties of selection in large populations. The x-axis should be frequency of the advantageous allele and range from 0 to 1. The y-axis should be the change in frequency of the advantageous allele after one generation of selection. Perform calculations in steps of 0.01 for each of the following six (1a, 1b, 1c, 2a, 2b, 2c) scenarios: (1) the homozygous deleterious genotype has a selection coefficient of 0.1 and the advantageous allele is (a) recessive, (b) dominant or (c) additive; (2) the homozygous deleterious genotype has a selection coefficient of 0.25 and the advantageous allele is (a) recessive, (b) dominant or (c) additive.
+*Generate a scatter plot that shows the properties of selection in large populations. The x-axis should be frequency of the advantageous allele and range from 0 to 1. The y-axis should be the change in frequency of the advantageous allele after one generation of selection. Perform calculations in steps of 0.01 for each of the following six (1a, 1b, 1c, 2a, 2b, 2c) scenarios: (1) the homozygous deleterious genotype has a selection coefficient of 0.1 and the advantageous allele is (a) recessive, (b) dominant or (c) additive; (2) the homozygous deleterious genotype has a selection coefficient of 0.25 and the advantageous allele is (a) recessive, (b) dominant or (c) additive.*
 
 ```{R}
 
@@ -94,6 +94,7 @@ scenerio_df <- function(del_sc, genotype_func, genotype_name){
 
 ```
 
+
 ```{R}
 # ugly 
 df.1 <- scenerio_df(0.1, sc_ressesive, "Ressesive")
@@ -120,11 +121,13 @@ ggplot(big.df, aes(x=advan_allele_freq, y=freq_gen_2, color=scenerio)) +
 
 ## Part B
 
-Four of the six plots from above are highly asymmetric. Explain the biological reason behind these asymmetric patterns.
+*Four of the six plots from above are highly asymmetric. Explain the biological reason behind these asymmetric patterns.*
+
+Biological significane 
 
 # Problem 2
 
-You sequence a 5.6 kb locus in 5 diploid individuals and observe 11 segregating sites. What is your estimate of theta in this population? What property of the expected coalescent tree is this estimate based on? What is your estimate of coalescent Ne assuming a mutation rate of 10^-8 per bp per generation?
+*You sequence a 5.6 kb locus in 5 diploid individuals and observe 11 segregating sites. What is your estimate of theta in this population? What property of the expected coalescent tree is this estimate based on? What is your estimate of coalescent Ne assuming a mutation rate of 10^-8 per bp per generation?*
 
 ```{R}
 locus_len <- 5.6e3
@@ -135,55 +138,94 @@ seg_sites <- 11  # observed 11 segregating sites
 ```{R}
 theta <- seg_sites / sum(1 / 1:(gene_copies-1))
 ```
-```{R}
-mutation_rate <- 10e-8
-message(paste('Theta =', round(theta, 2)))
-```
-Ultimately, this estimation is based on the expectation that the number of segregating sites is determined by the coalensent tree length (number of generations) which in turn is a property of both population size and the number of gene copies that are analyzed. 
 
 ```{R}
-Ne <- theta / (4 * mutation_rate)
+mutation_rate <- 1e-8
+message(paste('Theta =', round(theta, 2)))
+```
+Ultimately, this estimation is based on the expectation that the number of segregating sites is determined by the coalescent tree length (number of generations) which in turn is a property of both population size and the number of gene copies that are analyzed. 
+
+```{R}
+Ne <- theta / (4 * mutation_rate * locus_len)
 message(paste('Ne = ', round(Ne, 2)))
 ```
 
-
-
-
 # Problem 3
 
-Explain the difference between coalescent effective population size (Ne) and instantaneous Ne. What is one way to estimate coalescent Ne? What is one way to estimate instantaneous Ne?
+*Explain the difference between coalescent effective population size (Ne) and instantaneous Ne. What is one way to estimate coalescent Ne? What is one way to estimate instantaneous Ne?*
 
-Effective number of individuals in idealized population that has same magnitude
-of genetic drift as actual population (how much allele freq change across time
-in actual populations)
+The coalescent effective population size is the size of a Wright-Fisher
+population that would be predicted to have the same amount of genetic
+variation as the actual population. This is similar but distinct from
+instantaneous Ne because instantaneous Ne is based on genetic drift. Therefore,
+an actual population with a coalescent and instantaneous effective size of 50
+would harbor the same amount of genetic diversity as a Wright-Fisher population
+of size 50 and be experiencing the same amount of genetic drift as a Wright-Fisher
+population of this same size. This also means that from generation to generation a population could be experiencing a large degree of genetic drift and therefore have a small
+instantaneous effective size, but if the populations overall genetic diversity
+was maintained, possibly through interactions with meta-populations, coalescent
+effective size could be much larger. 
 
-Find wright fisher population that we would expect to have that same level of
-genetic drift (instanous or short term effective population size Ne)
-
-Another way to define is from coalensent theory persepctive
-
-Effective size of a population is number of individuals in idealizes pop
-that has the same amount of genetic variation as the actual population (vs
-genetic drift degree). This is colacent or long term effective size. 
-
-
-From generation to generation a population could be experiencing a lot of genetic
-drift and therefore have low instanous effective population size but for whatever
-reason (meta populations salmon) could maintain genetic diversity and have larger
-long term effective population size.
-
-
-Population 1: Hard to count sequence a bunch from a locus and calulate Pi
-= 2.4 diff / 1200 bp pi is also Tajimia theta = 4N u where u is a mutation
-rate 
-
+Coalescent effective population size can be estimated by calculating Tajima's theta
+which utilizes Pi, the average number of pairwise nucleotide differences at a
+given loci and a mutation rate. Instantaneous effective population size can be
+estimated though a maximum likelihood approach. This first involves collecting
+individuals from two generations (G1 and G2) and genotyping individuals in
+these groups at multiple loci. Then, calculate the probability of observing data
+given the assumptions that define a Wright-Fisher population. 
 
 
 # Problem 4
 
-The expected time to the first coalescent event of four gene copies is 2N/6 generations before the present but the actual time could be much more or much less. If you sample 100 sets of four gene copies, each set has an actual time to the first coalescent event. Do you expect the number of sets that have an actual first coalescent before 2N/6 to be approximately equal to the number of sets to have an actual first coalescent after 2N/6? Explain your answer.
-
-Yes because that is how the normal distrabution works. 
+*The expected time to the first coalescent event of four gene copies is 2N/6 generations before the present but the actual time could be much more or much less. If you sample 100 sets of four gene copies, each set has an actual time to the first coalescent event. Do you expect the number of sets that have an actual first coalescent before 2N/6 to be approximately equal to the number of sets to have an actual first coalescent after 2N/6? Explain your answer.*
 
 
+```{R}
+n_gene_copies <- 4
 
+sample_gen <- function(n_gene_copies){
+  
+  coalesent_key <- 0  # is random number is this then coalensent event
+  n_gens <- 0 # number generations
+  while (coalesent_key != 1){
+    coalesent_key <- sample(1:n_gene_copies, 1)
+    n_gens <- n_gens + 1
+  }
+  n_gens
+}
+```
+
+
+```{R}
+simulation <- function(n_runs, n_gene_copies){
+  
+  n_gens_list <- list()
+  for (i in 1:n_runs){
+    n_gens_list[[i]] <- sample_gen(n_gene_copies)
+  }
+  data.frame(n_gens=unlist(n_gens_list))  
+}
+# Run the simulation 1000 times and plot just for fun
+df <- simulation(1000, n_gene_copies)
+expectation <- (1 / n_gene_copies) ^-1
+ggplot(df, aes(x=n_gens)) + geom_histogram(binwidth = 1, color='black', fill='dodgerblue', alpha=0.5) + theme_pubr() +  geom_vline(xintercept=expectation, linetype="dashed", 
+                color = "black", size=1) +
+geom_vline(xintercept=mean(df$n_gens), linetype="dashed", 
+                color = "grey", size=1)
+```
+
+Grey line is expectation and black line is observed mean time to most recent common ancestor.
+
+```{R}
+freqs <- table(df)
+less <- sum(freqs[(1:length(freqs) < expectation)])
+greater <- sum(freqs[(1:length(freqs) >= expectation)])
+
+message(paste('Area under curve < expectation', less))
+message(paste('Area under curve > expectation', greater))
+```
+The probability of observing a coalescent event between any two gene copies
+will decrease with the number of generations. This makes intuitive sense sense
+because each generation represents another chance of coalescence. Therefore the
+distribution with observe is not symmetric and most of the area under the curve
+occurs before our expectation of 2N/6.
